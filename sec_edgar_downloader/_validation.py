@@ -8,17 +8,9 @@ from ._constants import (
     DEFAULT_BEFORE_DATE,
     SUPPORTED_FORMS,
 )
-from .TickerConverter import TickerConverter
+from ._TickerConverter import TickerConverter
 
 ticker_converter = TickerConverter()
-
-
-def is_cik(ticker_or_cik: str) -> bool:
-    try:
-        int(ticker_or_cik)
-        return True
-    except ValueError:
-        return False
 
 
 def validate_date_format(date_format: str) -> None:

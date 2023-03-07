@@ -15,8 +15,17 @@ from sec_edgar_downloader._constants import (
 )
 
 
+@pytest.fixture(scope="session")
+def downloader(tmpdir_factory):
+    print(tmpdir_factory)
+    tmp = tmpdir_factory.mktemp("tmp")
+    dl = Downloader(tmp)
+    yield dl
+    shutil.rmtree(tmp)
+
+
 @pytest.fixture(scope="function")
-def downloader(tmp_path):
+def downloader_with_path(tmp_path):
     dl = Downloader(tmp_path)
     yield dl, tmp_path
     shutil.rmtree(tmp_path)
@@ -32,8 +41,8 @@ def formatted_latest_before_date():
     return DEFAULT_BEFORE_DATE.strftime(DATE_FORMAT_TOKENS)
 
 
-@pytest.fixture(autouse=True)
-def prevent_rate_limit():
-    """Prevent SEC rate-limiting by sleeping between test cases."""
-    yield
-    time.sleep(SEC_EDGAR_RATE_LIMIT_SLEEP_INTERVAL)
+# @pytest.fixture(autouse=True)
+# def prevent_rate_limit():
+#     """Prevent SEC rate-limiting by sleeping between test cases."""
+#     yield
+#     time.sleep(SEC_EDGAR_RATE_LIMIT_SLEEP_INTERVAL)

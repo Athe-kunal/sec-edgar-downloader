@@ -1,6 +1,15 @@
 # Changelog
 
+## 5.0.0 - 1/__/2022
+
+### New
+
+- Complete rewrite of package using the official [SEC EDGAR API](https://www.sec.gov/edgar/sec-api-documentation) as a backend retrieval mechanism.
+- Improved rate-limiting behavior by using a centralized rate-limiting mechanism to help prevent `403 FORBIDDEN` errors.
+
 ## 4.3.0 - 12/21/2021
+
+### New
 
 - Add official support for Python 3.10.
 - Pass `Accept-Encoding: gzip, deflate` and `Host: www.sec.gov` headers into all requests as recommended by the SEC fair access rules: https://www.sec.gov/os/accessing-edgar-data. This should lead to smaller request sizes as all requests are now gzipped. It should also help with 403 Forbidden errors since the package is now conforming with the entire suite of fair access rules.
@@ -23,6 +32,7 @@
 - Updated the `User-Agent` header to comply with new [SEC Edgar Fair Access requirements](https://www.sec.gov/os/accessing-edgar-data). This should resolve the 403 network errors some users are encountering when downloading a significant number of filings.
 
 ### Changed
+
 - A `ValueError` is now raised when a CIK of length >10 or a blank ticker/CIK is passed to `get()`.
 
 ## 4.2.1 - 6/22/2021

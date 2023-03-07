@@ -6,7 +6,7 @@ from typing import ClassVar, List, Optional, Union
 import pandas as pd
 
 from ._constants import SUPPORTED_FORMS as _SUPPORTED_FORMS
-from ._utils import download_filings, get_download_urls, get_filings_to_download
+from ._utils import download_filings, get_filings_to_download
 from ._validation import validate_dates, validate_forms, validate_ticker_or_cik
 
 
@@ -122,7 +122,7 @@ class Downloader:
 
         validate_forms(forms)
 
-        filings_df = get_filings_to_download(
+        download_urls_df = get_filings_to_download(
             forms,
             cik,
             amount,
@@ -130,8 +130,6 @@ class Downloader:
             end_date,
             include_amends,
         )
-
-        download_urls_df = get_download_urls(cik, filings_df)
 
         if not only_dataframe:
             download_filings(

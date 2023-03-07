@@ -1,7 +1,10 @@
+import time
 from functools import lru_cache
 from typing import ClassVar, Dict, Optional
 
 from sec_cik_mapper import MutualFundMapper, StockMapper
+
+from ._constants import SEC_EDGAR_RATE_LIMIT_SLEEP_INTERVAL
 
 
 class TickerConverter:
@@ -16,7 +19,11 @@ class TickerConverter:
         # Initialize and store ticker to CIK mapping
         if self.ticker_to_cik_mapping is None:
             stock_mapper = StockMapper()
+            time.sleep(SEC_EDGAR_RATE_LIMIT_SLEEP_INTERVAL)
+
             mutual_fund_mapper = MutualFundMapper()
+            time.sleep(SEC_EDGAR_RATE_LIMIT_SLEEP_INTERVAL)
+
             self.ticker_to_cik_mapping = dict(
                 stock_mapper.ticker_to_cik,
                 **mutual_fund_mapper.ticker_to_cik,

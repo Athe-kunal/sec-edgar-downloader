@@ -96,7 +96,7 @@ def get_filings_to_download(
     filtered_submissions = filter_dataframe(
         submissions, forms, amount, start_date, end_date, include_amends
     )
-    return filtered_submissions
+    return get_download_urls(cik, filtered_submissions)
 
 
 def filter_dataframe(
@@ -271,3 +271,11 @@ def download_and_save_filing(
 
 def generate_random_user_agent() -> str:
     return f"{fake.first_name()} {fake.last_name()} {fake.email()}"
+
+
+def is_cik(ticker_or_cik: str) -> bool:
+    try:
+        int(ticker_or_cik)
+        return True
+    except ValueError:
+        return False
